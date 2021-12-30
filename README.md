@@ -2,6 +2,7 @@
 An easy and quick way to setup a Selenium Standalone Server up and running and keep your time and energy on your main project's goals.
 
 *Note: This only works fine on a Linux Docker Host! I'm working on it to make it possible to run on a Windows Docker Host.*
+**Although, you can still use these dependencies regardless of using Docker. However, you need to setup the Selenium required environment on your own, and it will be different depending on your machine and network settings.**
 
 ## Setup
  ```
