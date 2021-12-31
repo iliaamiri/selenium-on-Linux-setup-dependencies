@@ -1,8 +1,17 @@
 FROM centos
 
-RUN dnf -y install git
+# Installing the sources for the locales, git, and Xvfb
+RUN dnf -y install git Xvfb glibc-locale-source
 
-RUN dnf -y install firefox
+# Setting up the default locale to en_US.UTF-8
+RUN localedef --no-archive -i en_US -f UTF-8 en_US.UTF-8 && export LANG=en_US.UTF-8
+
+# Installing Necessary packages including firefox
+RUN dnf -y install dbus-x11 PackageKit-gtk3-module libcanberra-gtk2 firefox
+
+# Generating a universally unique ID for the Container
+RUN  dbus-uuidgen > /etc/machine-id
+
 
 RUN mkdir /root/setup
 
@@ -32,16 +41,14 @@ RUN echo "export PATH" >> /root/.bash_profile
 WORKDIR /root
 
 RUN echo 'if [ -f ~/.bashrc ]; then' > .bash_profile
-RUN echo '. ~/.bashrc' >> .bash_profile    
-RUN echo 'fi' >> .bash_profile 
+RUN echo '. ~/.bashrc' >> .bash_profile
+RUN echo 'fi' >> .bash_profile
 RUN echo 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin:/usr/bin/java/jre1.8.0_311/bin' >> .bash_profile
 RUN echo 'export PATH' >> .bash_profile
 
 ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin:/usr/bin/java/jre1.8.0_311/bin"
 
 ENV DISPLAY=$DISPLAY
-
-RUN dnf -y install Xvfb
 
 WORKDIR /root/setup/selenium-setup-on-Linux-dependencies-for-Docker
 
